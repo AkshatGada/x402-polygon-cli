@@ -1,0 +1,14 @@
+node_modules/
+src/
+tsconfig.json
+*.log
+.DS_Store
+.env
+.env.local
+*.lockb
+.cache/
+weather/
+GETTING_STARTED.md
+USAGE.md
+bun.lock
+

@@ -1,0 +1,20 @@
+{
+  "name": "x402-hono-server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "tsx index.ts",
+    "dev": "tsx watch index.ts"
+  },
+  "dependencies": {
+    "hono": "^4.7.1",
+    "@hono/node-server": "^1.13.8",
+    "x402-hono": "^0.6.5",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0"
+  }
+}
+

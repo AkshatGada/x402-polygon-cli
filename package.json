@@ -1,0 +1,60 @@
+{
+  "name": "x402-polygon-cli",
+  "version": "1.0.0",
+  "description": "CLI tool to quickly set up x402 projects on Polygon with interactive wizard",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "x402-polygon": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "src/templates",
+    "README.md",
+    "GETTING_STARTED.md"
+  ],
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun --minify",
+    "prepublishOnly": "bun run build",
+    "start": "bun run dist/index.js",
+    "cli": "bun run src/index.ts"
+  },
+  "keywords": [
+    "x402",
+    "polygon",
+    "cli",
+    "micropayments",
+    "express",
+    "hono",
+    "blockchain",
+    "web3",
+    "payment-protocol"
+  ],
+  "author": "akshat_gada",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/x402-polygon-cli.git"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "inquirer": "^12.0.0",
+    "chalk": "^5.3.0",
+    "ora": "^8.1.1",
+    "boxen": "^8.0.1",
+    "simple-git": "^3.27.0",
+    "fs-extra": "^11.2.0",
+    "viem": "^2.37.6",
+    "glob": "^11.0.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^22.10.5",
+    "typescript": "^5.7.2"
+  }
+}
