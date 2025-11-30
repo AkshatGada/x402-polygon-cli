@@ -16,8 +16,6 @@ A fast, interactive CLI tool to quickly set up x402 projects on Polygon networks
 
 ## Installation
 
-### npm Installation (Recommended)
-
 ```bash
 # Using Bun (recommended - fastest)
 bunx x402-polygon create my-project
@@ -29,18 +27,6 @@ x402-polygon create my-project
 # Or install globally with npm
 npm install -g x402-polygon-cli
 x402-polygon create my-project
-```
-
-### Local Development
-
-```bash
-# Run directly from the project directory
-cd /Users/agada/x402-polygon-cli
-bun run cli create
-
-# Or use the linked version (after bun link)
-bun link
-x402-polygon create
 ```
 
 ## Usage
