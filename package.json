@@ -1,6 +1,6 @@
 {
   "name": "x402-polygon-cli",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "CLI tool to quickly set up x402 projects on Polygon with interactive wizard",
   "type": "module",
   "main": "dist/index.js",
