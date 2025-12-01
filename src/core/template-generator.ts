@@ -84,9 +84,13 @@ dist/
   private async generateExpressServer(targetPath: string, state: WizardState): Promise<void> {
     const serverPath = path.join(targetPath, 'server.js');
     const endpoints = this.generateEndpointsConfig(state.endpoints, state.network);
+    
+    // Determine middleware package based on settlement type
+    const isOptimistic = state.settlementType === 'optimistic';
+    const middlewarePackage = isOptimistic ? 'x402-express-async' : 'x402-express';
 
     const content = `import express from "express";
-import { paymentMiddleware } from "x402-express";
+import { paymentMiddleware } from "${middlewarePackage}";
 
 const app = express();
 
@@ -98,6 +102,7 @@ console.log("=".repeat(80));
 console.log(\`📍 Facilitator URL: \${FACILITATOR_URL}\`);
 console.log(\`💰 Receiving Wallet: \${state.wallet?.address || 'SET_IN_ENV'}\`);
 console.log(\`🌐 Network: ${state.network}\`);
+console.log(\`⚡ Settlement: ${isOptimistic ? 'Optimistic (Async)' : 'Complete (On-chain)'}\`);
 console.log("=".repeat(80));
 
 app.use(paymentMiddleware(
@@ -280,10 +285,13 @@ app.${method}("${endpoint.path}", c => {
 
     // Ensure x402 dependencies
     if (state.template === 'express') {
+      const isOptimistic = state.settlementType === 'optimistic';
+      const middlewarePackage = isOptimistic ? 'x402-express-async' : 'x402-express';
+      
       packageJson.dependencies = {
         ...packageJson.dependencies,
         express: '^4.18.2',
-        'x402-express': '^0.6.5',
+        [middlewarePackage]: '^0.6.5',
       };
     } else {
       packageJson.dependencies = {

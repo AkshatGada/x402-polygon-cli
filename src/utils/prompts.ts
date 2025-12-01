@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import type { Template, Network, EndpointConfig } from '../types/index.js';
+import type { Template, Network, EndpointConfig, SetupType, SettlementType } from '../types/index.js';
 import { validateProjectName, validateWalletAddress, validatePrivateKey, validateEndpointPath, validatePrice } from './validators.js';
 
 export async function promptProjectName(): Promise<string> {
@@ -15,6 +15,48 @@ export async function promptProjectName(): Promise<string> {
     },
   ]);
   return projectName;
+}
+
+export async function promptSetupType(): Promise<SetupType> {
+  const { setupType } = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'setupType',
+      message: 'Which middleware and SDK setup would you like?',
+      choices: [
+        {
+          name: 'Simple setup - Standard configuration with complete settlement',
+          value: 'simple',
+        },
+        {
+          name: 'Advanced (Custom) - Choose settlement type',
+          value: 'advanced',
+        },
+      ],
+    },
+  ]);
+  return setupType;
+}
+
+export async function promptSettlementType(): Promise<SettlementType> {
+  const { settlementType } = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'settlementType',
+      message: 'Which settlement type would you like?',
+      choices: [
+        {
+          name: 'Optimistic Settlement - Fast and async (facilitator verifies, seller serves, transaction settles async)',
+          value: 'optimistic',
+        },
+        {
+          name: 'Complete Settlement - Resource served only when transaction is settled on-chain',
+          value: 'complete',
+        },
+      ],
+    },
+  ]);
+  return settlementType;
 }
 
 export async function promptTemplate(): Promise<Template> {

@@ -85,8 +85,15 @@ async function createNonInteractive(
     };
   }
 
+  const setupType = options.setupType || 'simple';
+  const settlementType = setupType === 'advanced' 
+    ? (options.settlementType || 'complete')
+    : 'complete';
+
   return {
     projectName,
+    setupType: setupType as 'simple' | 'advanced',
+    settlementType: settlementType as 'optimistic' | 'complete',
     template: options.template || 'express',
     network,
     facilitatorUrl,
@@ -115,8 +122,19 @@ function showSummary(state: WizardState): void {
   console.log('\n' + purple.bold('📋 Setup Summary'));
   console.log(purple('━'.repeat(60)));
 
+  const settlementTypeDisplay = state.setupType === 'advanced' 
+    ? (state.settlementType === 'optimistic' ? 'Optimistic (Async)' : 'Complete (On-chain)')
+    : 'Complete (Simple setup)';
+  
+  const middlewareDisplay = state.template === 'express'
+    ? (state.settlementType === 'optimistic' ? 'x402-express-async' : 'x402-express')
+    : 'x402-hono';
+
   const summary = [
     ['Project Name:', state.projectName],
+    ['Setup Type:', state.setupType === 'simple' ? 'Simple' : 'Advanced (Custom)'],
+    ['Settlement Type:', settlementTypeDisplay],
+    ['Middleware:', middlewareDisplay],
     ['Template:', state.template],
     ['Network:', getNetworkName(state.network)],
     ['Facilitator URL:', state.facilitatorUrl],

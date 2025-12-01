@@ -3,6 +3,8 @@ import { getFacilitatorUrl } from '../core/config-manager.js';
 import { WalletService } from '../core/wallet-service.js';
 import {
   promptProjectName,
+  promptSetupType,
+  promptSettlementType,
   promptTemplate,
   promptNetwork,
   promptWalletOption,
@@ -30,24 +32,38 @@ export class Wizard {
     this.state.projectName = await promptProjectName();
     logger.success(`Project name: ${this.state.projectName}`);
 
-    // Step 2: Template selection
+    // Step 2: Middleware and SDK setup
     const purple = chalk.hex('#8247E5');
+    console.log('\n' + purple('─────────────────────────────────────────────────────────') + '\n');
+    this.state.setupType = await promptSetupType();
+    logger.success(`Setup type: ${this.state.setupType}`);
+
+    // Step 2a: Settlement type (if advanced)
+    if (this.state.setupType === 'advanced') {
+      this.state.settlementType = await promptSettlementType();
+      logger.success(`Settlement type: ${this.state.settlementType}`);
+    } else {
+      // Simple setup defaults to complete settlement
+      this.state.settlementType = 'complete';
+    }
+
+    // Step 3: Template selection
     console.log('\n' + purple('─────────────────────────────────────────────────────────') + '\n');
     this.state.template = await promptTemplate();
     logger.success(`Template: ${this.state.template}`);
 
-    // Step 3: Network selection
+    // Step 4: Network selection
     console.log('\n' + purple('─────────────────────────────────────────────────────────') + '\n');
     this.state.network = await promptNetwork();
     this.state.facilitatorUrl = getFacilitatorUrl(this.state.network);
     logger.success(`Network: ${this.state.network}`);
     logger.success(`Facilitator URL: ${this.state.facilitatorUrl}`);
 
-    // Step 4: Wallet setup
+    // Step 5: Wallet setup
     console.log('\n' + purple('─────────────────────────────────────────────────────────') + '\n');
     await this.handleWalletSetup();
 
-    // Step 5: Endpoint configuration
+    // Step 6: Endpoint configuration
     console.log('\n' + purple('─────────────────────────────────────────────────────────') + '\n');
     await this.handleEndpointConfiguration();
 
